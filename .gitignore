@@ -12,3 +12,5 @@
 *.dotCover
 _ReSharper.*
 StyleCop.*
+
+**/packages/*
