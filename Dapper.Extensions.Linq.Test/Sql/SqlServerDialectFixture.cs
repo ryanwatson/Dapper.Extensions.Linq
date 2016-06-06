@@ -77,33 +77,36 @@ namespace Dapper.Extensions.Linq.Test.Sql
             public void Select_ReturnsSql()
             {
                 var parameters = new Dictionary<string, object>();
-                string sql = "SELECT TOP(10) [_proj].[column] FROM (SELECT ROW_NUMBER() OVER(ORDER BY CURRENT_TIMESTAMP) AS [_row_number], [column] FROM [schema].[table]) [_proj] WHERE [_proj].[_row_number] >= @_pageStartRow ORDER BY [_proj].[_row_number]";
-                var result = Dialect.GetPagingSql("SELECT [column] FROM [schema].[table]", 0, 10, parameters);
+                string sql = "SELECT [column] FROM [schema].[table] ORDER BY [column] OFFSET @firstResult ROWS FETCH NEXT @maxResults ROWS ONLY";
+                var result = Dialect.GetPagingSql("SELECT [column] FROM [schema].[table] ORDER BY [column]", 0, 10, parameters);
                 Assert.AreEqual(sql, result);
-                Assert.AreEqual(1, parameters.Count);
-                Assert.AreEqual(parameters["@_pageStartRow"], 1);
+                Assert.AreEqual(2, parameters.Count);
+                Assert.AreEqual(parameters["@maxResults"], 10);
+                Assert.AreEqual(parameters["@firstResult"], 0);
             }
 
             [Test]
             public void SelectDistinct_ReturnsSql()
             {
                 var parameters = new Dictionary<string, object>();
-                string sql = "SELECT TOP(10) [_proj].[column] FROM (SELECT DISTINCT ROW_NUMBER() OVER(ORDER BY CURRENT_TIMESTAMP) AS [_row_number], [column] FROM [schema].[table]) [_proj] WHERE [_proj].[_row_number] >= @_pageStartRow ORDER BY [_proj].[_row_number]";
-                var result = Dialect.GetPagingSql("SELECT DISTINCT [column] FROM [schema].[table]", 0, 10, parameters);
+                string sql = "SELECT DISTINCT [column] FROM [schema].[table] ORDER BY [column] OFFSET @firstResult ROWS FETCH NEXT @maxResults ROWS ONLY";
+                var result = Dialect.GetPagingSql("SELECT DISTINCT [column] FROM [schema].[table] ORDER BY [column]", 0, 10, parameters);
                 Assert.AreEqual(sql, result);
-                Assert.AreEqual(1, parameters.Count);
-                Assert.AreEqual(parameters["@_pageStartRow"], 1);
+                Assert.AreEqual(2, parameters.Count);
+                Assert.AreEqual(parameters["@maxResults"], 10);
+                Assert.AreEqual(parameters["@firstResult"], 0);
             }
 
             [Test]
             public void SelectOrderBy_ReturnsSql()
             {
                 var parameters = new Dictionary<string, object>();
-                string sql = "SELECT TOP(10) [_proj].[column] FROM (SELECT ROW_NUMBER() OVER(ORDER BY [column] DESC) AS [_row_number], [column] FROM [schema].[table]) [_proj] WHERE [_proj].[_row_number] >= @_pageStartRow ORDER BY [_proj].[_row_number]";
+                string sql = "SELECT [column] FROM [schema].[table] ORDER BY [column] DESC OFFSET @firstResult ROWS FETCH NEXT @maxResults ROWS ONLY";
                 var result = Dialect.GetPagingSql("SELECT [column] FROM [schema].[table] ORDER BY [column] DESC", 0, 10, parameters);
                 Assert.AreEqual(sql, result);
-                Assert.AreEqual(1, parameters.Count);
-                Assert.AreEqual(parameters["@_pageStartRow"], 1);
+                Assert.AreEqual(2, parameters.Count);
+                Assert.AreEqual(parameters["@maxResults"], 10);
+                Assert.AreEqual(parameters["@firstResult"], 0);
             }
         }
 
