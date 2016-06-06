@@ -25,6 +25,7 @@ namespace Dapper.Extensions.Linq.Test.IntegrationTests.Fixtures
 
             // Assert
             Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.First().FirstName, Is.EqualTo("c"));
         }
 
         [Test]
