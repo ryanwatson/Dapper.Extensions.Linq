@@ -17,7 +17,7 @@ namespace Dapper.Extensions.Linq.Test.IntegrationTests.SqlServer
         public static Castle.Windsor.WindsorContainer Configuration()
         {
 
-            using (var sqlConnection = new SqlConnection("Data Source=.;Integrated security=True;"))
+            using (var sqlConnection = new SqlConnection(@"Data Source=.\MYDEV;Integrated security=True;"))
             {
                 const string sqlCreateDatabase = @"
                 IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = '{0}')
