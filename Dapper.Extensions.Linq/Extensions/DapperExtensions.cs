@@ -105,6 +105,19 @@ namespace Dapper.Extensions.Linq.Extensions
         }
 
         /// <summary>
+        /// Executes a select query using the specified predicate and with a number of rows to skip, returning an IEnumerable data typed as per T.
+        /// </summary>
+        public static IEnumerable<T> GetListPaged<T>(this IDbConnection connection, int skip, object predicate = null, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false, int? topRecords = null, bool nolock = false) where T : class
+        {
+            if (!topRecords.HasValue)
+            {
+                throw new ArgumentNullException("Skip requires Take");
+            }
+            var page = skip / topRecords.Value;
+            return Instance.GetPage<T>(connection, predicate, sort, page, topRecords.Value, transaction, commandTimeout, buffered);
+        }
+
+        /// <summary>
         /// Executes a count query using the specified predicate if supplied
         /// </summary>
         public static int Count<T>(this IDbConnection connection, object predicate = null, IDbTransaction transaction = null, int? commandTimeout = null) where T : class

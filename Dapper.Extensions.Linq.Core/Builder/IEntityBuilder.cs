@@ -16,6 +16,8 @@ namespace Dapper.Extensions.Linq.Core.Builder
         IEntityBuilder<T> Take(int number);
         IEntityBuilder<T> OrderBy(Expression<Func<T, object>> expression);
         IEntityBuilder<T> OrderByDescending(Expression<Func<T, object>> expression);
+        IEntityBuilder<T> Skip(int number);
+
 
         /// <summary>
         /// SqlCe cannot have a non zero timeout.

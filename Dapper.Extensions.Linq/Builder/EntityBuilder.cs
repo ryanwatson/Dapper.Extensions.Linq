@@ -20,6 +20,7 @@ namespace Dapper.Extensions.Linq.Builder
         private int? _take;
         private int? _timeout;
         private bool _nolock;
+        private int? _skip;
 
         public EntityBuilder(IDapperSession session, Expression<Func<T, bool>> expression)
         {
@@ -33,7 +34,9 @@ namespace Dapper.Extensions.Linq.Builder
             IPredicateGroup predicate = QueryBuilder<T>.FromExpression(_expression);
 
             IPredicateGroup p = predicate?.Predicates == null ? null : predicate;
-            return _session.GetList<T>(p, _sort, _session.Transaction, _timeout, false, _take, _nolock);
+            return _skip.HasValue ? 
+                _session.GetListPaged<T>(_skip.Value, p, _sort, _session.Transaction, _timeout, false, _take, _nolock) : 
+                _session.GetList<T>(p, _sort, _session.Transaction, _timeout, false, _take, _nolock);
         }
 
         public IEnumerable<T> AsEnumerable()
@@ -98,6 +101,12 @@ namespace Dapper.Extensions.Linq.Builder
             };
             _sort.Add(sort);
 
+            return this;
+        }
+
+        public IEntityBuilder<T> Skip(int number)
+        {
+            _skip = number;
             return this;
         }
 

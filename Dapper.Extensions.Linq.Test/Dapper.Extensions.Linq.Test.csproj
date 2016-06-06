@@ -105,6 +105,7 @@
     <Compile Include="IntegrationTests\Fixtures\GetList.cs" />
     <Compile Include="IntegrationTests\Fixtures\Delete.cs" />
     <Compile Include="IntegrationTests\Fixtures\Get.cs" />
+    <Compile Include="IntegrationTests\Fixtures\Skip.cs" />
     <Compile Include="IntegrationTests\Fixtures\Update.cs" />
     <Compile Include="IntegrationTests\Fixtures\Insert.cs" />
     <Compile Include="IntegrationTests\Fixtures\MassInsert.cs" />
