@@ -82,7 +82,7 @@ namespace Dapper.Extensions.Linq.Test.Sql
                 Assert.AreEqual(sql, result);
                 Assert.AreEqual(2, parameters.Count);
                 Assert.AreEqual(parameters["@maxResults"], 10);
-                Assert.AreEqual(parameters["@firstResult"], 1);
+                Assert.AreEqual(parameters["@firstResult"], 0);
             }
 
             [Test]
@@ -94,7 +94,7 @@ namespace Dapper.Extensions.Linq.Test.Sql
                 Assert.AreEqual(sql, result);
                 Assert.AreEqual(2, parameters.Count);
                 Assert.AreEqual(parameters["@maxResults"], 10);
-                Assert.AreEqual(parameters["@firstResult"], 1);
+                Assert.AreEqual(parameters["@firstResult"], 0);
             }
 
             [Test]
@@ -106,7 +106,7 @@ namespace Dapper.Extensions.Linq.Test.Sql
                 Assert.AreEqual(sql, result);
                 Assert.AreEqual(2, parameters.Count);
                 Assert.AreEqual(parameters["@maxResults"], 10);
-                Assert.AreEqual(parameters["@firstResult"], 1);
+                Assert.AreEqual(parameters["@firstResult"], 0);
             }
         }
 
