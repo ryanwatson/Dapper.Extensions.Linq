@@ -14,6 +14,9 @@ namespace Dapper.Extensions.Linq.Core.Builder
         T SingleOrDefault();
         T FirstOrDefault();
         IEntityBuilder<T> Take(int number);
+        // add by m8989@qq.com
+        IEntityBuilder<T> Where(Expression<Func<T, bool>> predicate = null);
+
         IEntityBuilder<T> OrderBy(Expression<Func<T, object>> expression);
         IEntityBuilder<T> OrderByDescending(Expression<Func<T, object>> expression);
 

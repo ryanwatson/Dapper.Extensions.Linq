@@ -14,6 +14,8 @@ namespace Dapper.Extensions.Linq.Core.Repositories
         bool Update(T item);
         bool Delete(T item);
         IList<T> GetList();
+        // add by m8989@qq.com
+        IEntityBuilder<T> Where(Expression<Func<T, bool>> predicate = null);
         IEntityBuilder<T> Query(Expression<Func<T, bool>> predicate = null);
         int Count(Expression<Func<T, bool>> predicate = null);
         bool Delete(Expression<Func<T, bool>> predicate = null);
