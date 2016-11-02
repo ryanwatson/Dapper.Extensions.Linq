@@ -19,7 +19,22 @@ namespace Dapper.Extensions.Linq.Test.IntegrationTests.SqlServer
 
             const string sql = "SELECT TOP 1 Id, FirstName FROM Person ORDER BY Id DESC";
             List<dynamic> result = personRepository.QueryDynamic(sql).ToList();
+            //personRepository.Query(x=>x.Id>0).OrderBy()
+            Assert.AreEqual(result.First().Id, person.Id);
+            Assert.AreEqual(result.First().FirstName, person.FirstName);
+        }
+        [Test]//hiaming加
+        public void UsingQuery_Where()
+        {
+            var personRepository = Container.Resolve<IRepository<Person>>();
 
+            var person = new Person { Active = false, FirstName = "bbbbbbbbbbb", LastName = "b1", DateCreated = DateTime.UtcNow };
+            personRepository.Insert(person);
+
+            var q = personRepository.Where(x => x.Id > 0);
+            q = q.Where(x => x.FirstName== "bbbbbbbbbbb");
+            var result = q.ToList();
+            //personRepository.Query(x=>x.Id>0).OrderBy()
             Assert.AreEqual(result.First().Id, person.Id);
             Assert.AreEqual(result.First().FirstName, person.FirstName);
         }

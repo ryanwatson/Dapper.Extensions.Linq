@@ -51,6 +51,11 @@ namespace Dapper.Extensions.Linq.Repositories
         {
             return GetCurrentSession().GetList<T>(GetCurrentSession().Transaction).ToList();
         }
+        // add by m8989@qq.com
+        public IEntityBuilder<T> Where( Expression<Func<T, bool>> predicate)
+        {
+            return Query(predicate);
+        }
 
         public virtual IEntityBuilder<T> Query(Expression<Func<T, bool>> predicate)
         {

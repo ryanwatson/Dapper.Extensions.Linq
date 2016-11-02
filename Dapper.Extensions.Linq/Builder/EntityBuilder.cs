@@ -15,7 +15,7 @@ namespace Dapper.Extensions.Linq.Builder
     sealed class EntityBuilder<T> : IEntityBuilder<T> where T : class, IEntity
     {
         private readonly IDapperSession _session;
-        private readonly Expression<Func<T, bool>> _expression;
+        private /*readonly*/ Expression<Func<T, bool>> _expression;
         private readonly IList<ISort> _sort;
         private int? _take;
         private int? _timeout;
@@ -31,7 +31,6 @@ namespace Dapper.Extensions.Linq.Builder
         private IEnumerable<T> ResolveEnities()
         {
             IPredicateGroup predicate = QueryBuilder<T>.FromExpression(_expression);
-
             IPredicateGroup p = predicate?.Predicates == null ? null : predicate;
             return _session.GetList<T>(p, _sort, _session.Transaction, _timeout, false, _take, _nolock);
         }
@@ -69,6 +68,15 @@ namespace Dapper.Extensions.Linq.Builder
         public T FirstOrDefault()
         {
             return ResolveEnities().FirstOrDefault();
+        }
+        // add by m8989@qq.com
+        public IEntityBuilder<T> Where(Expression<Func<T, bool>> predicate = null)
+        {
+            if (_expression == null)
+                _expression = predicate;
+            else
+                _expression = _expression.And(predicate);
+            return this;
         }
 
         public IEntityBuilder<T> OrderBy(Expression<Func<T, object>> expression)
